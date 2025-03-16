@@ -1,5 +1,6 @@
 from typing import Dict, List, TypedDict
-from langgraph.graph import StateGraph, END
+
+from langgraph.graph import END, StateGraph
 
 
 # Define our state
@@ -64,21 +65,21 @@ def generate_report(state: State) -> Dict:
     summary = state["summarized_text"]
 
     # Count sentiments
-    positive_count = sum(1 for s in sentiments if s["sentiment"] == "positive")
-    negative_count = sum(1 for s in sentiments if s["sentiment"] == "negative")
+    positive_count = sum(bool(s["sentiment"] == "positive") for s in sentiments)
+    negative_count = sum(bool(s["sentiment"] == "negative") for s in sentiments)
 
     # Generate report
     report = f"SUMMARY: {summary}\n\n"
-    report += f"SENTIMENT ANALYSIS:\n"
+    report += "SENTIMENT ANALYSIS:\n"
     report += f"- Positive words: {positive_count}\n"
     report += f"- Negative words: {negative_count}\n"
 
     if positive_count > negative_count:
-        report += f"Overall sentiment: Positive"
+        report += "Overall sentiment: Positive"
     elif negative_count > positive_count:
-        report += f"Overall sentiment: Negative"
+        report += "Overall sentiment: Negative"
     else:
-        report += f"Overall sentiment: Neutral"
+        report += "Overall sentiment: Neutral"
 
     return {"final_report": report}
 
@@ -105,15 +106,15 @@ def create_text_analysis_graph():
     graph.set_entry_point("preprocess")
 
     # Compile the graph
-    app = graph.compile()
+    graph_app = graph.compile()
 
-    return app
+    return graph_app
 
 
 # Example usage
 if __name__ == "__main__":
     # Create the graph
-    app = create_text_analysis_graph()
+    graph_app = create_text_analysis_graph()
 
     # Alternative way to create the graph using add_sequence:
     # graph = StateGraph(State)
@@ -121,13 +122,16 @@ if __name__ == "__main__":
     #     "preprocess",
     #     [preprocess_text, analyze_sentiment, summarize_text, generate_report]
     # )
-    # app = graph.compile()
+    # graph_app = graph.compile()
 
     # Sample text
-    sample_text = "I really love this product. It's great and works well. However, the delivery was terrible and I hate the packaging."
+    sample_text = (
+        "I really love this product. It's great and works well. "
+        "However, the delivery was terrible and I hate the packaging."
+    )
 
     # Run the graph
-    result = app.invoke({"text": sample_text})
+    result = graph_app.invoke({"text": sample_text})
 
     # Print final report
     print("\n" + "=" * 50)

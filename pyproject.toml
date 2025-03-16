@@ -17,6 +17,7 @@ dev = [
     "pre-commit>=3.3.2",
     "pylint>=3.0.0",
     "requests>=2.31.0",
+    "types-requests>=2.31.0",
 ]
 
 [build-system]
@@ -32,10 +33,11 @@ packages = ["."]
 # ----------------------
 [tool.ruff]
 # Enable common linting rules
-select = ["E", "F", "B", "I"]
 line-length = 88
 target-version = "py313"
 
+[tool.ruff.lint]
+select = ["E", "F", "B", "I"]
 # Ignore import errors for langgraph which may not be installed in the linter environment
 ignore = ["F401", "F403", "E402"]
 
@@ -118,6 +120,18 @@ ignore_missing_imports = true
 module = "matplotlib.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "fastapi.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "pydantic.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "uvicorn.*"
+ignore_missing_imports = true
+
 # Untyped definitions and calls
 [[tool.mypy.overrides]]
 module = "sequential_graph_example"
@@ -146,9 +160,9 @@ disable = [
     "missing-function-docstring",
     "missing-class-docstring",
     "missing-module-docstring",
-    "bad-continuation",
     "invalid-name",
-    "fixme"
+    "fixme",
+    "redefined-outer-name"
 ]
 
 [tool.pylint.format]
@@ -164,4 +178,4 @@ max-statements = 50
 
 [tool.pylint.similarities]
 min-similarity-lines = 8
-ignore-imports = "yes" 
+ignore-imports = "yes"

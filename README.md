@@ -225,7 +225,7 @@ Available commands:
 All tools are configured in pyproject.toml for centralized management:
 
 - **Ruff**: Linting and formatting ([tool.ruff])
-- **mypy**: Type checking ([tool.mypy]) 
+- **mypy**: Type checking ([tool.mypy])
 - **pylint**: Additional linting ([tool.pylint])
 
 ## Basic Sequential Graph
@@ -235,17 +235,17 @@ The file `sequential_graph_example.py` demonstrates three different methods for 
 1. **Explicit Node and Edge Definition**:
    ```python
    graph = StateGraph(State)
-   
+
    # Add nodes
    graph.add_node("step1", step1)
    graph.add_node("step2", step2)
    graph.add_node("step3", step3)
-   
+
    # Connect the nodes in sequence
    graph.add_edge("step1", "step2")
    graph.add_edge("step2", "step3")
    graph.add_edge("step3", END)
-   
+
    # Set the entry point
    graph.set_entry_point("step1")
    ```
@@ -253,7 +253,7 @@ The file `sequential_graph_example.py` demonstrates three different methods for 
 2. **Using add_sequence Shorthand**:
    ```python
    graph = StateGraph(State)
-   
+
    # Add a sequence of nodes
    graph.add_sequence("step1", [step1, step2, step3])
    ```
@@ -261,14 +261,14 @@ The file `sequential_graph_example.py` demonstrates three different methods for 
 3. **Starting with an Empty Graph**:
    ```python
    graph = StateGraph(State)
-   
+
    # Define the sequence of nodes
    nodes = [
        ("step1", step1),
        ("step2", step2),
        ("step3", step3)
    ]
-   
+
    # Add the sequence
    graph.add_sequence("step1", [node[1] for node in nodes])
    ```
@@ -337,4 +337,4 @@ uv run pytest
 2. Make each node function focus on a specific task
 3. Ensure each function returns only the fields it updates
 4. For simple sequences, use `add_sequence` for cleaner code
-5. For more complex graphs, explicitly define nodes and edges 
+5. For more complex graphs, explicitly define nodes and edges

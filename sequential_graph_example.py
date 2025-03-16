@@ -1,5 +1,6 @@
 from typing import Dict, TypedDict
-from langgraph.graph import StateGraph, END
+
+from langgraph.graph import END, StateGraph
 
 
 # Define our state
@@ -46,9 +47,9 @@ def create_explicit_sequential_graph():
     graph.set_entry_point("step1")
 
     # Compile the graph
-    app = graph.compile()
+    graph_app = graph.compile()
 
-    return app
+    return graph_app
 
 
 # METHOD 2: Using the convenient add_sequence method
@@ -62,9 +63,9 @@ def create_sequence_shorthand_graph():
     graph.add_sequence(nodes)
 
     # Compile the graph
-    app = graph.compile()
+    graph_app = graph.compile()
 
-    return app
+    return graph_app
 
 
 # METHOD 3: Start with an empty graph and add sequence with nodes
@@ -84,18 +85,18 @@ def create_empty_sequence_graph():
     graph.add_sequence(nodes)
 
     # Compile the graph
-    app = graph.compile()
+    graph_app = graph.compile()
 
-    return app
+    return graph_app
 
 
 # Example usage
 if __name__ == "__main__":
     # Create the graph using any of the methods
-    app = create_explicit_sequential_graph()
-    # app = create_sequence_shorthand_graph()
-    # app = create_empty_sequence_graph()
+    graph_app = create_explicit_sequential_graph()
+    # graph_app = create_sequence_shorthand_graph()
+    # graph_app = create_empty_sequence_graph()
 
     # Run the graph with initial input
-    result = app.invoke({"input": "Hello LangGraph!"})
+    result = graph_app.invoke({"input": "Hello LangGraph!"})
     print(result)

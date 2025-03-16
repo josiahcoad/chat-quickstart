@@ -21,7 +21,7 @@ def print_response(response):
     try:
         formatted_json = json.dumps(response.json(), indent=2)
         print(formatted_json)
-    except:
+    except json.JSONDecodeError:
         print(response.text)
 
 
@@ -36,7 +36,9 @@ def run_basic_graph():
 
     for endpoint in endpoints:
         print(f"\nCalling {endpoint}...")
-        response = requests.post(f"{API_BASE_URL}{endpoint}", json=input_data)
+        response = requests.post(
+            f"{API_BASE_URL}{endpoint}", json=input_data, timeout=10
+        )
         print_response(response)
 
 
@@ -52,7 +54,9 @@ def run_text_analysis():
     input_data = {"text": text}
 
     print("\nCalling /practical/text-analysis...")
-    response = requests.post(f"{API_BASE_URL}/practical/text-analysis", json=input_data)
+    response = requests.post(
+        f"{API_BASE_URL}/practical/text-analysis", json=input_data, timeout=10
+    )
     print_response(response)
 
 
@@ -64,16 +68,25 @@ def main():
 
     try:
         # Check if API is running
-        response = requests.get(API_BASE_URL)
-        print("API server is running!")
+        health_check = requests.get(API_BASE_URL, timeout=5)
+        if health_check.status_code == 200:
+            print("API server is running!")
 
-        # Run the examples
-        run_basic_graph()
-        run_text_analysis()
-
+            # Run the examples
+            run_basic_graph()
+            run_text_analysis()
+        else:
+            print(
+                f"\nERROR: API server returned status code {health_check.status_code}"
+            )
+            sys.exit(1)
     except requests.exceptions.ConnectionError:
         print("\nERROR: Cannot connect to the API server.")
         print("Make sure the server is running with: make serve")
+        sys.exit(1)
+    except requests.exceptions.Timeout:
+        print("\nERROR: Connection to the API server timed out.")
+        print("Make sure the server is running and responsive.")
         sys.exit(1)
 
 

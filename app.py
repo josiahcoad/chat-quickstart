@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Dict, List
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
@@ -66,14 +66,17 @@ def run_explicit_graph(data: BasicGraphInput):
     """
     Run the explicit sequential graph with the provided input.
 
-    This graph demonstrates creating a sequential pipeline by explicitly defining nodes and edges.
+    This graph demonstrates creating a sequential pipeline by explicitly
+    defining nodes and edges.
     """
     try:
-        app = create_explicit_sequential_graph()
-        result = app.invoke({"input": data.input})
+        graph = create_explicit_sequential_graph()
+        result = graph.invoke({"input": data.input})
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Graph execution failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Graph execution failed: {str(e)}"
+        ) from e
 
 
 @app.post("/basic/shorthand", response_model=BasicGraphResponse)
@@ -81,14 +84,17 @@ def run_shorthand_graph(data: BasicGraphInput):
     """
     Run the shorthand sequential graph with the provided input.
 
-    This graph demonstrates creating a sequential pipeline using the add_sequence shorthand.
+    This graph demonstrates creating a sequential pipeline using the
+    add_sequence shorthand.
     """
     try:
-        app = create_sequence_shorthand_graph()
-        result = app.invoke({"input": data.input})
+        graph = create_sequence_shorthand_graph()
+        result = graph.invoke({"input": data.input})
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Graph execution failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Graph execution failed: {str(e)}"
+        ) from e
 
 
 @app.post("/basic/empty", response_model=BasicGraphResponse)
@@ -99,11 +105,13 @@ def run_empty_graph(data: BasicGraphInput):
     This graph demonstrates creating a sequential pipeline starting with an empty graph.
     """
     try:
-        app = create_empty_sequence_graph()
-        result = app.invoke({"input": data.input})
+        graph = create_empty_sequence_graph()
+        result = graph.invoke({"input": data.input})
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Graph execution failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Graph execution failed: {str(e)}"
+        ) from e
 
 
 # Practical example endpoint
@@ -116,11 +124,13 @@ def run_text_analysis(data: TextAnalysisInput):
     sentiment analysis, summarization, and report generation.
     """
     try:
-        app = create_text_analysis_graph()
-        result = app.invoke({"text": data.text})
+        graph = create_text_analysis_graph()
+        result = graph.invoke({"text": data.text})
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Graph execution failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Graph execution failed: {str(e)}"
+        ) from e
 
 
 if __name__ == "__main__":

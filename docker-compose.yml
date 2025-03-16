@@ -12,4 +12,4 @@ services:
       - .:/app
     environment:
       - PYTHONUNBUFFERED=1
-    restart: unless-stopped 
+    restart: unless-stopped
