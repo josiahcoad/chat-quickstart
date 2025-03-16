@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  langgraph-api:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Use the default Dockerfile (with pipx)
+      # dockerfile: Dockerfile.alt  # Uncomment to use the alternative Dockerfile (with curl)
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped 

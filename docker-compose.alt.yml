@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  langgraph-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.alt 

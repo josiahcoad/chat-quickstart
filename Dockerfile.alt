@@ -1,0 +1,35 @@
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Copy application code
+COPY . .
+
+# Install UV and dependencies
+RUN apt-get update && apt-get install -y curl && \
+    curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    # Add UV to PATH and install dependencies
+    export PATH="/root/.cargo/bin:$PATH" && \
+    # Create a script to use UV with the correct PATH
+    echo '#!/bin/sh\n\
+export PATH="/root/.cargo/bin:$PATH"\n\
+cd /app\n\
+uv init\n\
+uv pip install hatchling\n\
+uv pip install -e "."\n\
+uv pip install -e ".[dev]"\n\
+' > /setup.sh && \
+    chmod +x /setup.sh && \
+    /setup.sh && \
+    # Clean up
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add UV to PATH permanently
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Command to run the application
+CMD ["python", "app.py"] 

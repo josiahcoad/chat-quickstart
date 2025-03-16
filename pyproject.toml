@@ -1,0 +1,167 @@
+[project]
+name = "langgraph-sequential-example"
+version = "0.1.0"
+description = "Examples of sequential graphs in LangGraph"
+requires-python = ">=3.13"
+dependencies = [
+    "langgraph>=0.3.0",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.27.0",
+    "pydantic>=2.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.0.0",
+    "ruff>=0.0.270",
+    "pre-commit>=3.3.2",
+    "pylint>=3.0.0",
+    "requests>=2.31.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Add wheel configuration to fix the build error
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+# ----------------------
+# Ruff Configuration
+# ----------------------
+[tool.ruff]
+# Enable common linting rules
+select = ["E", "F", "B", "I"]
+line-length = 88
+target-version = "py313"
+
+# Ignore import errors for langgraph which may not be installed in the linter environment
+ignore = ["F401", "F403", "E402"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".uv",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+[tool.ruff.format]
+# Use double quotes for strings.
+quote-style = "double"
+# Indent with 4 spaces.
+indent-style = "space"
+# Respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Automatically detect the appropriate line ending.
+line-ending = "auto"
+
+# ----------------------
+# MyPy Configuration
+# ----------------------
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+
+# Enabling incremental mode to speed up checking
+incremental = true
+cache_dir = ".mypy_cache"
+
+# Ignore missing imports for common libraries
+[[tool.mypy.overrides]]
+module = "langgraph.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "numpy.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "pandas.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "matplotlib.*"
+ignore_missing_imports = true
+
+# Untyped definitions and calls
+[[tool.mypy.overrides]]
+module = "sequential_graph_example"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[[tool.mypy.overrides]]
+module = "practical_sequential_graph"
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+# ----------------------
+# Pylint Configuration
+# ----------------------
+[tool.pylint.master]
+jobs = 4
+ignore = ["CVS", ".git", ".uv", ".venv", "venv"]
+init-hook = "import sys; sys.path.append('.')"
+
+[tool.pylint."messages control"]
+disable = [
+    "import-error",
+    "no-name-in-module",
+    "missing-docstring",
+    "line-too-long",
+    "missing-function-docstring",
+    "missing-class-docstring",
+    "missing-module-docstring",
+    "bad-continuation",
+    "invalid-name",
+    "fixme"
+]
+
+[tool.pylint.format]
+max-line-length = 88
+
+[tool.pylint.design]
+max-attributes = 12
+max-args = 6
+max-locals = 25
+max-returns = 6
+max-branches = 12
+max-statements = 50
+
+[tool.pylint.similarities]
+min-similarity-lines = 8
+ignore-imports = "yes" 
