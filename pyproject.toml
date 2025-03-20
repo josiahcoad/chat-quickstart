@@ -8,6 +8,11 @@ dependencies = [
     "fastapi>=0.110.0",
     "uvicorn>=0.27.0",
     "pydantic>=2.5.0",
+    "bs4>=0.0.2",
+    "langchain-community>=0.3.19",
+    "langchain-openai>=0.3.9",
+    "dotenv>=0.9.9",
+    "langchain>=0.3.20",
 ]
 
 [project.optional-dependencies]
@@ -18,15 +23,8 @@ dev = [
     "pylint>=3.0.0",
     "requests>=2.31.0",
     "types-requests>=2.31.0",
+    "langgraph-cli[inmem]>=0.1.77",
 ]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-# Add wheel configuration to fix the build error
-[tool.hatch.build.targets.wheel]
-packages = ["."]
 
 # ----------------------
 # Ruff Configuration
@@ -37,9 +35,9 @@ line-length = 88
 target-version = "py313"
 
 [tool.ruff.lint]
-select = ["E", "F", "B", "I"]
+select = ["ALL"]
 # Ignore import errors for langgraph which may not be installed in the linter environment
-ignore = ["F401", "F403", "E402"]
+ignore = ["F401", "F403", "E402", "PL", "D"]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

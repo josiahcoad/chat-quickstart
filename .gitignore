@@ -53,3 +53,9 @@ wheels/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Cursor
+.cursor
+
+# LangGraph
+.langgraph_api
