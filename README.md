@@ -2,17 +2,31 @@
 
 ## Quick Start
 ```bash
-make setup && source .venv/bin/activate # setup venv
+curl -LsSf https://astral.sh/uv/install.sh | sh # install uv
+brew install make # install make
+```
+
+```bash
+make setup-env && source .venv/bin/activate # setup venv
 cp .env-example .env # then edit `.env`
 make test # run the agent with a single input to make sure it works
 make dev # run the dev server for the chat UI
 ```
 
-This repository demonstrates how to create a chat bot (think chatgpt) using LangGraph.
+This repository demonstrates how to create a chat bot (think chatgpt) using LangGraph. But extended with tools, memory, and a GUI.
 
 It uses a "ReAct agent" (short for Reasoning and Action agent) which is basically just an LLM that can call tools.
 
-While simple, it is incredibly powerful and can be extended to do more complex tasks.
+While simple, it is incredibly powerful and can be extended to do many complex tasks.
+
+
+### If you prefer using docker
+```bash
+cp .env-example .env # then edit `.env`
+docker compose up
+```
+
+The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0.1:2024
 
 ## Dev Notes
 - we use uv (rust based package manager) for super fast installs
@@ -49,8 +63,11 @@ While simple, it is incredibly powerful and can be extended to do more complex t
 
 ### 6. Deploy your agent on the cloud
 - You can deploy the agent using docker and ec2/etc
-- You can also do a managed deployment using https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
-- Deploy the frontend using...
+  - https://langchain-ai.github.io/langgraph/cloud/reference/cli/#up
+  - "Requires a license key for production use." (TODO: need to look into this)
+- You can also do a managed deployment
+  - https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
+- Deploy the frontend using... (TODO)
 
 ### 7. Add storage retrieval (R.A.G.)
 - Retrieving and storing documents can be thought of as another tool
@@ -78,6 +95,17 @@ And a way to group tools together into packages.
   - like here: https://github.com/modelcontextprotocol/servers
   - https://github.com/punkpeye/awesome-mcp-servers
   - and a fully hosted platform of them here: https://composio.dev/
+
+### 10. Handle more complex tasks
+As your list of tools grows, the LLM might start having trouble knowing which one to use.
+The way this is solved is via multi-agent systems. There are two main types:
+- **Hierarchical agents**: where one agent is responsible for deciding which tool to use
+  - Supervisor: https://github.com/langchain-ai/langgraph-supervisor-py
+- **Coordinated agents**: where one agent is responsible for coordinating the actions of multiple agents
+  - Swarm: https://github.com/langchain-ai/langgraph-swarm-py 
+
+
+
 
 
 
