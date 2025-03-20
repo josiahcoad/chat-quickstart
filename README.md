@@ -71,11 +71,7 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
   - https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
 - Deploy the frontend using... (TODO)
 
-### 7. Add storage retrieval (R.A.G.)
-- Retrieving and storing documents can be thought of as another tool
-- Consider adding repositories to the agent as tools which tell the agent where to look for particular information
-
-### 8. Add (long-term) memory
+### 7. Add (long-term) memory
 - https://youtu.be/-xkduCeudgY?si=qFi2h3BMj7sBqMrm
 - "short term memory" is just the conversation history so that the LLM knows what has been said so far
 - "long term memory" is just a key value store that the LLM can use to store information
@@ -83,7 +79,14 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
   - and the entire store is included in every subsequent system prompt of the chat
   - this helps is remember and update preferences of the user
   - but be careful about this memory getting too big
+    - You don't want to store big documents this way. That's where storage comes in...
 - to interact with it, go to https://agentchat.vercel.app/?apiUrl=http://localhost:2024&assistantId=memory_agent
+
+### 8. Add storage retrieval (R.A.G.)
+- Retrieving and storing documents can be thought of as another tool
+- You can either include relevant storage (sometimes called context) in the system prompt or you can use a tool to retrieve it when neccessary
+- We've created a storage_assistant.py
+
 ### 9. Add a GUI to your chat app
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
 
