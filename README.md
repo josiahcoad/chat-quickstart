@@ -84,11 +84,8 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
   - this helps is remember and update preferences of the user
   - but be careful about this memory getting too big
 - to interact with it, go to https://agentchat.vercel.app/?apiUrl=http://localhost:2024&assistantId=memory_agent
-### 9. Add a GUI to your chat app
-- https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
 
-
-### 10. Check out MCP servers
+### 9. Check out MCP servers
 Tools are great but they are a python function...
 MCP servers are just an abstraction on top of tools that give a language-agnostic way to communicate with them over stdin/stdout
 And a way to group tools together into packages.
@@ -109,8 +106,9 @@ The way this is solved is via multi-agent systems. There are two main types:
   - Swarm: https://github.com/langchain-ai/langgraph-swarm-py 
 
 
-
-
+### 11. Add a GUI to your chat app
+- https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
+- This is not yet possible in python yet but hopefully soon!
 
 
 ## Extra Helpful Links
