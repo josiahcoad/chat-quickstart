@@ -2,9 +2,10 @@
 
 ## Quick Start
 ```bash
-make setup
-make demo
-make dev
+make setup # install dependencies
+`cp .env-example .env` # then edit `.env`
+make test # run the agent with a single input to make sure it works
+make dev # run the dev server for the chat UI
 ```
 
 This repository demonstrates how to create chat agents using LangGraph.
@@ -26,7 +27,7 @@ The LangX Glossary
 - this has been done in the agent/assistant.py file
 
 ### 3. Serve that agent
-- Run `langgraph dev`
+- Run `make dev`
 - This should open the graph here: https://smith.langchain.com/studio
 
 ### 4. Connect to that agent via the UI
@@ -41,11 +42,17 @@ The LangX Glossary
 
 ### 7. Discover the universe of tools available
 
-### 8. Check our MCP servers
-Tools are great but they were a python function... Also you had to define each out
+### 8. Check out MCP servers
+Tools are great but they are a python function...
 MCP servers are just an abstraction on top of tools that give a language agnostic way to communicate with them over stdin/stdout
+And a way to group tools together into packages.
 
 - this is pretty badass https://github.com/snaggle-ai/openapi-mcp-server
+- and it might help to find out how tou can make an MCP server from scratch: https://youtu.be/CDjjaTALI68?si=rDPJeBcbX0Y-yUFc
+- there are a ton available
+  - like here: https://github.com/modelcontextprotocol/servers
+  - https://github.com/punkpeye/awesome-mcp-servers
+  - and a fully hosted platform of them here: https://composio.dev/
 
 ### 9. Check out how to add GUI to your assistant
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW

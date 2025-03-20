@@ -4,8 +4,9 @@ setup:
 	uv pip install -e ".[dev]"
 	source .venv/bin/activate
 
+test:
+	python agent/assistant.py
+
 dev:
 	langgraph dev
 
-test:
-	python agent/assistant.py
