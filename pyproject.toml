@@ -35,12 +35,18 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
+    "ARG002", # unused argument, handled by pylint
+    "ANN204", # we don't need to specify a type for the return value of __init__
     "TRY003", # ok to specify a string in a error message
     "EM101", # ok to specify a string in a error message
     "EM102", # ok to have f string when raising an error message
     "T201", # print is ok sometimes
     "PL",  # pylint handles this
     "D", # pydoc handled by pylint
+    "FIX002", # ok to have TODO in code
+    "TD002", # todo doesn't have to have a link
+    "TD003", # todo doesn't have to have an author
+    "RET504", # sometimes we want to define a variable and then return it for readability
 ]
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.

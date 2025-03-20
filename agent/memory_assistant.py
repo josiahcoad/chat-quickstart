@@ -52,7 +52,8 @@ graph = create_react_agent(
 
 if __name__ == "__main__":
 
-    def print_stream(graph, inputs, config):  # noqa: ANN001, ANN201
+    def print_stream(graph, message, config):  # noqa: ANN001, ANN201
+        inputs = {"messages": [message]}
         for s in graph.stream(inputs, config, stream_mode="values"):
             message = s["messages"][-1]
             if isinstance(message, tuple):
@@ -61,5 +62,5 @@ if __name__ == "__main__":
                 message.pretty_print()
 
     config = {"configurable": {"thread_id": "thread-1", "user_id": "1"}}
-    print_stream(graph, {"messages": ["Remember that my name is John Doe"]}, config)
-    print_stream(graph, {"messages": ["What do you remmeber about me?"]}, config)
+    print_stream(graph, "Remember that my name is John Doe", config)
+    print_stream(graph, "What do you remmeber about me?", config)
