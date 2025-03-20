@@ -35,9 +35,10 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "F401", 
-    "F403", 
-    "E402", 
+    "TRY003", # ok to specify a string in a error message
+    "EM101", # ok to specify a string in a error message
+    "EM102", # ok to have f string when raising an error message
+    "T201", # print is ok sometimes
     "PL",  # pylint handles this
     "D", # pydoc handled by pylint
 ]
@@ -73,6 +74,7 @@ exclude = [
 ]
 
 # Enabling incremental mode to speed up checking
+[tool.mypy]
 incremental = true
 cache_dir = ".mypy_cache"
 

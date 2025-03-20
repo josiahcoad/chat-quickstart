@@ -3,7 +3,8 @@
         "."
     ],
     "graphs": {
-        "agent": "./agent/assistant.py:graph"
+        "agent": "./agent/assistant.py:graph",
+        "memory_agent": "./agent/memory_assistant.py:graph"
     },
     "env": ".env"
 }

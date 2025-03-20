@@ -65,6 +65,8 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
 - You can deploy the agent using docker and ec2/etc
   - https://langchain-ai.github.io/langgraph/cloud/reference/cli/#up
   - "Requires a license key for production use." (TODO: need to look into this)
+  - You'll need to manage thread/chat/"short-term" memory yourself
+  - If using long-term memory, you'll need to manage that yourself too
 - You can also do a managed deployment
   - https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
 - Deploy the frontend using... (TODO)
@@ -77,9 +79,11 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
 - https://youtu.be/-xkduCeudgY?si=qFi2h3BMj7sBqMrm
 - "short term memory" is just the conversation history so that the LLM knows what has been said so far
 - "long term memory" is just a key value store that the LLM can use to store information
-  - it decided when to store info and then the entire store is included in every system prompt of the chat
+  - the LLM decides when to store info (via a tool call)
+  - and the entire store is included in every subsequent system prompt of the chat
   - this helps is remember and update preferences of the user
-
+  - but be careful about this memory getting too big
+- to interact with it, go to https://agentchat.vercel.app/?apiUrl=http://localhost:2024&assistantId=memory_agent
 ### 9. Add a GUI to your chat app
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
 
