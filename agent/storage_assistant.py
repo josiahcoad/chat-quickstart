@@ -6,7 +6,7 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 
-from agent.tools.storage import add_to_storage, get_storage_index
+from agent.tools.storage import add_to_storage, get_from_storage, get_storage_index
 
 load_dotenv()
 
@@ -29,6 +29,23 @@ def scrape_website(url: str) -> str:
 
 graph = create_react_agent(
     llm,
-    tools=[scrape_website, add_to_storage],
+    tools=[scrape_website, add_to_storage, get_from_storage],
     prompt=prepare_model_inputs,  # type: ignore[arg-type]
 )
+
+
+if __name__ == "__main__":
+    import asyncio
+
+    async def demo():  # noqa: ANN201
+        response = await graph.ainvoke(
+            {"messages": [("user", "Store website https://www.example.com/")]},
+        )
+        print(response["messages"][-1].content, "\n", "-" * 100)
+
+        response = await graph.ainvoke(
+            {"messages": [("user", "What is stored in my knowledge base?")]},
+        )
+        print(response["messages"][-1].content)
+
+    asyncio.run(demo())

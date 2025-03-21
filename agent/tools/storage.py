@@ -25,9 +25,10 @@ def add_to_storage(name: str, content: str, metadata: dict[str, str]) -> str:
     return f"Saved document: {name}"
 
 
-def get_storage(names: list[str]) -> str:
+@tool
+def get_from_storage(doc_names: list[str]) -> str:
     """Get the documents from storage for the given names"""
-    docs = [storage[name] for name in names]
+    docs = [storage[name] for name in doc_names]
     return _format_documents(docs)
 
 
