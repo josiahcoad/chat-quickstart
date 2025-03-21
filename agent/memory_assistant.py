@@ -45,7 +45,7 @@ store = InMemoryStore()
 graph = create_react_agent(
     model,
     [save_memory],
-    prompt=prepare_model_inputs,
+    prompt=prepare_model_inputs,  # type: ignore[arg-type]
     store=store,
 )
 

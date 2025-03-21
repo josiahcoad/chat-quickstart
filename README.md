@@ -82,10 +82,34 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
     - You don't want to store big documents this way. That's where storage comes in...
 - to interact with it, go to https://agentchat.vercel.app/?apiUrl=http://localhost:2024&assistantId=memory_agent
 
-### 8. Add storage retrieval (R.A.G.)
+### 8. Add storage retrieval
 - Retrieving and storing documents can be thought of as another tool
-- You can either include relevant storage (sometimes called context) in the system prompt or you can use a tool to retrieve it when neccessary
-- We've created a storage_assistant.py
+- You can either include relevant storage in the system prompt or you can use a tool to retrieve it when neccessary.
+- We've created a storage_assistant.py to demo the llm.txt method
+- There's at least two ways to include relevant storage in the system prompt
+
+1. "llm.txt" (March 2, 2024: https://youtu.be/fk2WEVZfheI)
+   1. Method
+      1. When you injest a document, generate a summary for it and create a "table of contents" with the doc name and the summary
+      2. feed the entire "table of contents" of the documents into the system prompt of the llm so it knows what documents are available
+      3. Then it can use a tool to retrieve the most relevant document when needed
+   2. Pros:
+      1. Dead simple to implement
+      2. More interpretable/manageable (ie you can inspect the table of contents and know what documents are available and could allow users to update the summaries themselves)
+   3. Cons:
+      1. Assumes your documents are fairly already "indexed" ie a single document is generall about a single topic
+      2. Assumes your documents are not too long (because the llm will try to load the entire document into the context window)
+      3. If you have too many documents, the system prompt will get too long and cost / content length could be an issue
+2. R.A.G. (Retrieval Augmented Generation)
+   1. Method
+      1. When injesting your documents, split the document into manageable chunks and embed each chunk.
+      2. Then when relevant information is needed, use a tool to retrieve the most relevant chunks and include them in the context window of the llm.
+   2. Pros:
+      1. Good if you have a lot of documents or documents
+      2. Handles arbitarily long or about a lot of different topics
+   3. Cons:
+      1. Theres a lot of hyperparamaters to tune (chunk size, chunking method, etc)
+      2. More infra to manage (eg a vector database)
 
 ### 9. Add a GUI to your chat app
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
@@ -104,6 +128,7 @@ And a way to group tools together into packages.
   - and a fully hosted platform of them here: https://composio.dev/
 
 ### 10. Handle more complex tasks
+My math teacher told me that it gets harder the more you learn because you have more tools to choose from. That's exactly what happens with agents.
 As your list of tools grows, the LLM might start having trouble knowing which one to use.
 The way this is solved is via multi-agent systems. There are two main types:
 - **Hierarchical agents**: where one agent is responsible for deciding which tool to use

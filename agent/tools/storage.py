@@ -1,45 +1,44 @@
 import json
 
+from langchain.chat_models import init_chat_model
 from langchain_core.documents import Document
 from langchain_core.tools import tool
 
-
-class Storage:
-    """Storage for the agent to use and query for RAG
-    Should we tell the agent what kind of data is stored or should it just always query?
-    """
-
-    def __init__(self):
-        self.store = []
-
-    # pylint: disable=unused-argument
-    def add(self, document: Document) -> None:
-        # TODO: chunk then injest into a vector database
-        self.store.append(document)
-
-    # pylint: disable=unused-argument
-    def search(self, query: str, count: int = 5) -> list[Document]:
-        # TODO: query the vector database
-        return self.store
-
-
-storage = Storage()
+storage = {}
+llm = init_chat_model(model="gpt-4o-mini", temperature=0)
 
 
 @tool
-def add_to_storage(content: str, metadata: dict[str, str]) -> None:
+def add_to_storage(name: str, content: str, metadata: dict[str, str]) -> str:
     """Store a document for later retrieval
-    metadata is arbitrary metadata about the document such as title and source_url
+    Args:
+        name: The name of the document to store (can be a url or document title)
+        content: The content of the document to store
+        metadata: Extra metadata about the document such as author, source_url, etc.
     """
+    summary: str = llm.invoke(
+        f"Summarize the content of this doc in one sentence:\n\n{content}",
+    ).content  # type: ignore[assignment]
+    metadata["summary"] = summary
     document = Document(content, metadata=metadata)
-    storage.add(document)
+    storage[name] = document
+    return f"Saved document: {name}"
 
 
-@tool
-def search_storage(query: str) -> str:
-    """Search for relevant documents in the storage"""
-    documents = storage.search(query)
-    formatted = "\n\n----------------------\n\n".join(
-        [f"{json.dumps(x.metadata, indent=2)}\n{x.page_content}" for x in documents],
+def get_storage(names: list[str]) -> str:
+    """Get the documents from storage for the given names"""
+    docs = [storage[name] for name in names]
+    return _format_documents(docs)
+
+
+def _format_documents(docs: list[Document]) -> str:
+    return "\n\n----------------------\n\n".join(
+        [f"{json.dumps(x.metadata, indent=2)}\n{x.page_content}" for x in docs],
     )
-    return formatted
+
+
+def get_storage_index() -> str:
+    """Get the index of the knowledge base"""
+    return "\n".join(
+        [f"-{name}: {doc.metadata['summary']}" for name, doc in storage.items()],
+    )
