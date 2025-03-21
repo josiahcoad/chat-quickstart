@@ -84,7 +84,7 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
 
 ### 8. Add storage retrieval
 - Retrieving and storing documents can be thought of as another tool
-- You can either include relevant storage in the system prompt or you can use a tool to retrieve it when neccessary.
+- You can either include relevant storage in the system prompt or you can use a tool to retrieve it when necessary.
 - We've created a storage_assistant.py to demo the llm.txt method
 - There's at least two ways to include relevant storage in the system prompt
 
