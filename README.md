@@ -88,7 +88,7 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
 - We've created a storage_assistant.py to demo the llm.txt method
 - There's at least two ways to include relevant storage in the system prompt
 
-1. "llm.txt" (March 2, 2024: https://youtu.be/fk2WEVZfheI)
+1. "llm.txt" (March 20, 2024: https://youtu.be/fk2WEVZfheI)
    1. Method
       1. When you injest a document, generate a summary for it and create a "table of contents" with the doc name and the summary
       2. feed the entire "table of contents" of the documents into the system prompt of the llm so it knows what documents are available
