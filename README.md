@@ -62,14 +62,20 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
 - lots of prebuilt tools from langchain: https://python.langchain.com/docs/integrations/tools/
 
 ### 6. Deploy your agent on the cloud
-- You can deploy the agent using docker and ec2/etc
-  - https://langchain-ai.github.io/langgraph/cloud/reference/cli/#up
-  - "Requires a license key for production use." (TODO: need to look into this)
-  - You'll need to manage thread/chat/"short-term" memory yourself
-  - If using long-term memory, you'll need to manage that yourself too
-- You can also do a managed deployment
-  - https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
+- Langgraph offers a managed deployment (Langgraph Cloud/Platform)
+  - go to https://smith.langchain.com/ and click the langgraph platform tab
+  - click new deployment in top right
+  - fork this repo into your own github account
+  - point the deployment to your fork
+  - click deploy
 - Deploy the frontend using... (TODO)
+- You can also deploy the langgraph server yourself
+  - using docker and ec2
+    - https://langchain-ai.github.io/langgraph/cloud/reference/cli/#up
+    - "Requires a license key for production use." (TODO: need to look into this)
+    - You'll need to manage thread/chat/"short-term" memory yourself
+    - If using long-term memory, you'll need to manage that yourself too
+  - invoking the graph manually behind your own api
 
 ### 7. Add (long-term) memory
 - https://youtu.be/-xkduCeudgY?si=qFi2h3BMj7sBqMrm
@@ -114,7 +120,7 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
 ### 9. Add a GUI to your chat app
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
 
-### 9. Check out MCP servers
+### 10. Check out MCP servers
 Tools are great but they are a python function...
 MCP servers are just an abstraction on top of tools that give a language-agnostic way to communicate with them over stdin/stdout
 And a way to group tools together into packages.
@@ -126,7 +132,7 @@ And a way to group tools together into packages.
   - https://github.com/punkpeye/awesome-mcp-servers
   - and a fully hosted platform of them here: https://composio.dev/
 
-### 10. Handle more complex tasks
+### 11. Handle more complex tasks
 My math teacher told me that it gets harder the more you learn because you have more tools to choose from. That's exactly what happens with agents.
 As your list of tools grows, the LLM might start having trouble knowing which one to use.
 The way this is solved is via multi-agent systems. There are two main types:
@@ -136,15 +142,16 @@ The way this is solved is via multi-agent systems. There are two main types:
   - Swarm: https://github.com/langchain-ai/langgraph-swarm-py 
 
 
-### 11. Add a GUI to your chat app
+### 12. Add a GUI to your chat app
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
 - This is not yet possible in python yet but hopefully soon!
 
 
 ## Extra Helpful Links
 
-**General langchain docs:**
+### General langchain docs
 - https://python.langchain.com/api_reference
+- - https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
 
 
 ### Interacting with memory
