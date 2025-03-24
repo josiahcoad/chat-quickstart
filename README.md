@@ -132,7 +132,7 @@ And a way to group tools together into packages.
   - https://github.com/punkpeye/awesome-mcp-servers
   - and a fully hosted platform of them here: https://composio.dev/
 
-### 11. Handle more complex tasks
+### 11. Handle more complex tasks (Multi-agent systems)
 My math teacher told me that it gets harder the more you learn because you have more tools to choose from. That's exactly what happens with agents.
 As your list of tools grows, the LLM might start having trouble knowing which one to use.
 The way this is solved is via multi-agent systems. There are two main types:
@@ -141,6 +141,7 @@ The way this is solved is via multi-agent systems. There are two main types:
 - **Coordinated agents**: where one agent is responsible for coordinating the actions of multiple agents
   - Swarm: https://github.com/langchain-ai/langgraph-swarm-py 
 
+* There is one more motivating factor for using multi-agent systems... our system prompt is getting too long. We use the system prompt to guide the agent's behavior. If a single agent is doing too much, the system prompt will become too long.
 
 ### 12. Add a GUI to your chat app
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW

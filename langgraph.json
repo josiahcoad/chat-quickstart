@@ -5,7 +5,8 @@
     "graphs": {
         "agent": "./agent/assistant.py:graph",
         "memory_agent": "./agent/memory_assistant.py:graph",
-        "storage_agent": "./agent/storage_assistant.py:graph"
+        "storage_agent": "./agent/storage_assistant.py:graph",
+        "swarm_agent": "./agent/swarm_assistant.py:graph"
     },
     "env": ".env"
 }
