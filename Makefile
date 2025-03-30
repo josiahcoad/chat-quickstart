@@ -1,10 +1,16 @@
 setup-env:
 	uv venv
-	uv pip install ".[dev]"
+	uv pip install -e ".[dev]"
 
-test:
-	python agent/assistant.py
+demo:
+	python agents/1_basic/assistant.py
 
 dev:
 	langgraph dev
 
+
+precommit:
+	pre-commit run --all-files
+
+test:
+	python -m pytest tests/unit/

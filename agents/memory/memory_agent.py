@@ -1,9 +1,16 @@
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
 from typing import Annotated
 
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
+from langchain_core.messages import BaseMessage
 from langchain_core.runnables.config import RunnableConfig
 from langgraph.prebuilt import InjectedStore, create_react_agent
+from langgraph.prebuilt.chat_agent_executor import AgentState
 from langgraph.store.base import BaseStore
 from langgraph.store.memory import InMemoryStore
 
@@ -25,10 +32,10 @@ def save_memory(
 
 
 async def prepare_model_inputs(
-    state: dict,
+    state: AgentState,
     config: RunnableConfig,
     store: BaseStore,
-) -> list[dict]:
+) -> list[dict[str, str] | BaseMessage]:
     # Retrieve user memories and add them to the system message
     # This function is called **every time** the model is prompted.
     # It converts the state to a prompt
@@ -36,7 +43,8 @@ async def prepare_model_inputs(
     namespace = ("memories", user_id)
     memories = [m.value["data"] for m in await store.asearch(namespace)]
     system_msg = f"User memories: {', '.join(memories)}"
-    return [{"role": "system", "content": system_msg}] + state["messages"]
+    past_messages: Sequence[BaseMessage] = state["messages"]
+    return [{"role": "system", "content": system_msg}, *past_messages]
 
 
 model = init_chat_model(model="gpt-4o", temperature=0)
@@ -53,8 +61,10 @@ graph = create_react_agent(
 if __name__ == "__main__":
     import asyncio
 
-    async def demo():  # noqa: ANN201
-        config = {"configurable": {"thread_id": "thread-1", "user_id": "1"}}
+    async def demo() -> None:
+        config = RunnableConfig(
+            {"configurable": {"thread_id": "thread-1", "user_id": "1"}}
+        )
 
         response = await graph.ainvoke(
             {"messages": [("user", "Remember that my name is John Doe")]},

@@ -8,7 +8,18 @@ model = init_chat_model(model="gpt-4o")
 
 
 def add(a: int, b: int) -> int:
-    """Add two numbers"""
+    """Add two numbers.
+
+    Args:
+    ----
+        a: The first number.
+        b: The second number.
+
+    Returns:
+    -------
+        The sum of the two numbers.
+
+    """
     return a + b
 
 
@@ -33,7 +44,7 @@ bob = create_react_agent(
 
 checkpointer = InMemorySaver()
 workflow = create_swarm(
-    [alice, bob],  # type: ignore[list-item]
+    [alice, bob],
     default_active_agent="Alice",
 )
 graph = workflow.compile(checkpointer=checkpointer)

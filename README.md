@@ -9,7 +9,7 @@ brew install make # install make
 ```bash
 make setup-env && source .venv/bin/activate # setup venv
 cp .env-example .env # then edit `.env`
-make test # run the agent with a single input to make sure it works
+make demo # run the agent with a single input to make sure it works
 make dev # run the dev server for the chat UI
 ```
 
@@ -77,50 +77,19 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
     - If using long-term memory, you'll need to manage that yourself too
   - invoking the graph manually behind your own api
 
-### 7. Add (long-term) memory
-- https://youtu.be/-xkduCeudgY?si=qFi2h3BMj7sBqMrm
-- "short term memory" is just the conversation history so that the LLM knows what has been said so far
-- "long term memory" is just a key value store that the LLM can use to store information
-  - the LLM decides when to store info (via a tool call)
-  - and the entire store is included in every subsequent system prompt of the chat
-  - this helps is remember and update preferences of the user
-  - but be careful about this memory getting too big
-    - You don't want to store big documents this way. That's where storage comes in...
-- to interact with it, go to https://agentchat.vercel.app/?apiUrl=http://localhost:2024&assistantId=memory_agent
+### Build more complex agents...
+- An agent with memory: [./agents/2_memory/README.md](./agents/2_memory/README.md)
+- An agent with storage: [./agents/3_storage/README.md](./agents/3_storage/README.md)
+- An agent with multi-step conversations: [./agents/4_multi/README.md](./agents/4_multi/README.md)
 
-### 8. Add storage retrieval
-- Retrieving and storing documents can be thought of as another tool
-- You can either include relevant storage in the system prompt or you can use a tool to retrieve it when necessary.
-- We've created a storage_assistant.py to demo the llm.txt method
-- There's at least two ways to include relevant storage in the system prompt
 
-1. "llm.txt" (March 20, 2024: https://youtu.be/fk2WEVZfheI)
-   1. Method
-      1. When you injest a document, generate a summary for it and create a "table of contents" with the doc name and the summary
-      2. feed the entire "table of contents" of the documents into the system prompt of the llm so it knows what documents are available
-      3. Then it can use a tool to retrieve the most relevant document when needed
-   2. Pros:
-      1. Dead simple to implement
-      2. More interpretable/manageable (ie you can inspect the table of contents and know what documents are available and could allow users to update the summaries themselves)
-   3. Cons:
-      1. Assumes your documents are fairly already "indexed" ie a single document is generall about a single topic
-      2. Assumes your documents are not too long (because the llm will try to load the entire document into the context window)
-      3. If you have too many documents, the system prompt will get too long and cost / content length could be an issue
-2. R.A.G. (Retrieval Augmented Generation)
-   1. Method
-      1. When injesting your documents, split the document into manageable chunks and embed each chunk.
-      2. Then when relevant information is needed, use a tool to retrieve the most relevant chunks and include them in the context window of the llm.
-   2. Pros:
-      1. Good if you have a lot of documents or documents
-      2. Handles arbitarily long or about a lot of different topics
-   3. Cons:
-      1. Theres a lot of hyperparamaters to tune (chunk size, chunking method, etc)
-      2. More infra to manage (eg a vector database)
+## Extra Helpful Links
 
-### 9. Add a GUI to your chat app
-- https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
+### General langchain docs
+- https://python.langchain.com/api_reference
+- https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
 
-### 10. Check out MCP servers
+### Check out MCP servers
 Tools are great but they are a python function...
 MCP servers are just an abstraction on top of tools that give a language-agnostic way to communicate with them over stdin/stdout
 And a way to group tools together into packages.
@@ -132,34 +101,6 @@ And a way to group tools together into packages.
   - https://github.com/punkpeye/awesome-mcp-servers
   - and a fully hosted platform of them here: https://composio.dev/
 
-### 11. Handle more complex tasks (Multi-agent systems)
-My math teacher told me that it gets harder the more you learn because you have more tools to choose from. That's exactly what happens with agents.
-As your list of tools grows, the LLM might start having trouble knowing which one to use.
-The way this is solved is via multi-agent systems. There are two main types:
-- **Hierarchical agents**: where one agent is responsible for deciding which tool to use
-  - Supervisor: https://github.com/langchain-ai/langgraph-supervisor-py
-- **Coordinated agents**: where one agent is responsible for coordinating the actions of multiple agents
-  - Swarm: https://github.com/langchain-ai/langgraph-swarm-py 
-
-* There is one more motivating factor for using multi-agent systems... our system prompt is getting too long. We use the system prompt to guide the agent's behavior. If a single agent is doing too much, the system prompt will become too long.
-
-### 12. Add a GUI to your chat app
+### Add a GUI to your chat app
 - https://youtu.be/sCqN01R8nIQ?si=AXGrNoyt0ZtuqegW
 - This is not yet possible in python yet but hopefully soon!
-
-
-## Extra Helpful Links
-
-### General langchain docs
-- https://python.langchain.com/api_reference
-- - https://langchain-ai.github.io/langgraph/cloud/deployment/cloud
-
-
-### Interacting with memory
-- https://github.com/langchain-ai/langgraph-memory
-
-
-### Interacting with storage
-**"Document" Loaders**
-- Documents are anything that have "page_content" and "metadata"
-- https://python.langchain.com/docs/integrations/document_loaders/

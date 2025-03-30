@@ -1,29 +1,36 @@
 [project]
-name = "simple-chatbot"
+name = "simple-agent"
 version = "1.0.0"
-description = "A simple chatbot using LangGraph"
-requires-python = ">=3.11"
+description = "Simple Agent"
+requires-python = ">=3.11,<=3.12"
 dependencies = [
-    "bs4>=0.0.2",
     "dotenv>=0.9.9",
     "langchain-community>=0.3.19",
     "langchain-openai>=0.3.9",
     "langchain>=0.3.20",
     "langgraph>=0.3.0",
     "pydantic>=2.5.0",
-    "langgraph-swarm>=0.0.7",
+    "requests>=2.31.0",
+    "langchain-anthropic>=0.3.10",
+    "python-Levenshtein==0.27.1",
+    "environs>=14.1.1",
 ]
 
 [project.optional-dependencies]
 dev = [
     "langgraph-cli[inmem]>=0.1.77",
-    "mypy>=1.0.0",
+    "mypy>=1.9.0",
     "pre-commit>=3.3.2",
-    "pylint>=3.0.0",
-    "requests>=2.31.0",
     "ruff>=0.0.270",
     "types-requests>=2.31.0",
+    "ipykernel>=6.29.5",
+    "pytest>=8.0.0",
+    "pytest-mock>=3.12.0",
+    "rich>=13.9.4",
+    "langgraph-sdk>=0.1.60",
+    "langgraph-swarm>=0.0.7",
 ]
+
 
 # ----------------------
 # Ruff Configuration
@@ -31,24 +38,40 @@ dev = [
 [tool.ruff]
 # Enable common linting rules
 line-length = 88
-target-version = "py313"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "ARG002", # unused argument, handled by pylint
+    "ANN101", # don't need a type annotation for self
     "ANN204", # we don't need to specify a type for the return value of __init__
-    "TRY003", # ok to specify a string in a error message
+    "COM812", # trailing comma (formtatter takes care of this)
+    "D100", # don't need docstrings in every file
+    "D101", # don't need docstrings in every class
+    "D102", # don't need docstrings in every method
+    "D103", # don't need docstrings in every function
+    "D104", # don't need docstrings in every module
+    "D106", # don't need docstrings in nested classes
+    "D107", # don't need docstrings in __init__
+    "D203", # don't want a space between class definition and docstring
+    "D213", # don't want the first line of a docstring to be a blank line
     "EM101", # ok to specify a string in a error message
     "EM102", # ok to have f string when raising an error message
-    "T201", # print is ok sometimes
-    "PL",  # pylint handles this
-    "D", # pydoc handled by pylint
+    "ERA001", # ok to have commented out code
     "FIX002", # ok to have TODO in code
+    "INP001", # don't need __init__ in every folder
+    "ISC001", # ruff says to turn off because the formatter takes care of this
+    "RET504", # sometimes we want to define a variable and then return it for readability
+    "S101", # ok to have asserts in code
+    "S311", # ok to use random generator
+    "T201", # print is ok sometimes
+    "TCH002", # I don't need to wrap type-specific imports into a TYPE_CHECKING block
+    "TCH003", # I don't need to wrap type-specific imports into a TYPE_CHECKING block
     "TD002", # todo doesn't have to have a link
     "TD003", # todo doesn't have to have an author
-    "RET504", # sometimes we want to define a variable and then return it for readability
+    "TRY003", # ok to specify a string in a error message
 ]
+
 
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
@@ -56,55 +79,50 @@ unfixable = []
 
 # Exclude a variety of commonly ignored directories.
 exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
     ".git",
-    ".git-rewrite",
-    ".hg",
     ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pytype",
     ".ruff_cache",
-    ".svn",
-    ".tox",
+    ".pytest_cache",
     ".uv",
     ".venv",
     "__pypackages__",
-    "_build",
-    "buck-out",
     "build",
-    "dist",
-    "node_modules",
-    "venv",
+    ".langgraph-api",
 ]
 
-# Enabling incremental mode to speed up checking
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+    "ANN001", # Ignore missing arg type in test files
+    "ANN201", # Ignore missing return type annotations in test files
+    "PLR2004", # allow magic values for more readable tests
+    "SLF001", # allow private access
+]
+
+[tool.ruff.lint.pylint]
+max-args = 6
+
 [tool.mypy]
 incremental = true
 cache_dir = ".mypy_cache"
 
-# ----------------------
-# Pylint Configuration
-# ----------------------
-[tool.pylint.master]
-jobs = 4
-ignore = [".git", ".uv", ".venv"]
+# Strict type checking
+strict = true
+# disallow_untyped_defs = true
+# disallow_incomplete_defs = true
+# check_untyped_defs = true
+# disallow_untyped_decorators = true
+# no_implicit_optional = true
+# warn_redundant_casts = true
+# warn_unused_ignores = true
+# warn_return_any = true
+# warn_unreachable = true
+# strict_equality = true
 
-[tool.pylint]
-disable = [
-    "import-error",
-    "no-name-in-module",
-    "missing-docstring",
-    "line-too-long",
-    "missing-function-docstring",
-    "missing-class-docstring",
-    "missing-module-docstring",
-    "invalid-name",
-    "fixme",
-    "redefined-outer-name"
-]
-
-[tool.pylint.format]
-max-line-length = 88
+# # Additional checks
+# enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+# disallow_untyped_calls = true
+# disallow_subclassing_any = true
+# disallow_any_generics = true
+# disallow_any_unimported = true
+# warn_incomplete_stub = true

@@ -3,10 +3,10 @@
         "."
     ],
     "graphs": {
-        "agent": "./agent/assistant.py:graph",
-        "memory_agent": "./agent/memory_assistant.py:graph",
-        "storage_agent": "./agent/storage_assistant.py:graph",
-        "swarm_agent": "./agent/swarm_assistant.py:graph"
+        "agent": "./agents/basic/basic_agent.py:graph",
+        "memory_agent": "./agents/memory/memory_agent.py:graph",
+        "storage_agent": "./agents/storage/storage_agent.py:graph",
+        "multi_agent": "./agents/multiagent/multi_agent.py:graph"
     },
     "env": ".env"
 }
