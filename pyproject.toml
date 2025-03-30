@@ -1,7 +1,7 @@
 [project]
-name = "simple-agent"
+name = "simple-agent-tutorial"
 version = "1.0.0"
-description = "Simple Agent"
+description = "Simple Agents to Learn LangGraph"
 requires-python = ">=3.11,<=3.12"
 dependencies = [
     "dotenv>=0.9.9",

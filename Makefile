@@ -3,14 +3,13 @@ setup-env:
 	uv pip install -e ".[dev]"
 
 demo:
-	python agents/1_basic/assistant.py
+	python agents/helloworld/helloworld_agent.py
 
 dev:
 	langgraph dev
-
 
 precommit:
 	pre-commit run --all-files
 
 test:
-	python -m pytest tests/unit/
+	python clients/client.py

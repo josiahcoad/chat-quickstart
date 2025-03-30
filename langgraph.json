@@ -3,7 +3,7 @@
         "."
     ],
     "graphs": {
-        "agent": "./agents/basic/basic_agent.py:graph",
+        "agent": "./agents/helloworld/helloworld_agent.py:graph",
         "memory_agent": "./agents/memory/memory_agent.py:graph",
         "storage_agent": "./agents/storage/storage_agent.py:graph",
         "multi_agent": "./agents/multiagent/multi_agent.py:graph"

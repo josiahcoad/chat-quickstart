@@ -76,11 +76,12 @@ The navigate to https://smith.langchain.com/studio/thread?baseUrl=http://127.0.0
     - You'll need to manage thread/chat/"short-term" memory yourself
     - If using long-term memory, you'll need to manage that yourself too
   - invoking the graph manually behind your own api
+    - check out langserve for that (although it has been soft deprecated in favor of langgraph platform)
 
 ### Build more complex agents...
-- An agent with memory: [./agents/2_memory/README.md](./agents/2_memory/README.md)
-- An agent with storage: [./agents/3_storage/README.md](./agents/3_storage/README.md)
-- An agent with multi-step conversations: [./agents/4_multi/README.md](./agents/4_multi/README.md)
+- An agent with memory: [./agents/memory/README.md](./agents/memory/README.md)
+- An agent with storage: [./agents/storage/README.md](./agents/storage/README.md)
+- An agent with multi-step conversations: [./agents/multiagent/README.md](./agents/multiagent/README.md)
 
 
 ## Extra Helpful Links
